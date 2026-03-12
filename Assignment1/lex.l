@@ -35,7 +35,7 @@ KEYWORD                 {STORAGE_CLASS_SPECIFIER}|{TYPE_SPECIFIER}|{TYPE_QUALIFI
 
 /* An integer constant consisting of a sequence of digits is taken to be octal if it begins with 0, decimal otherwise. */
 OCTAL_CONSTANT          0[0-7]+
-DECIMAL                 0|[1-9][[:digit:]]*
+DECIMAL                 0|[1-9][[:xdigit:]]*
 /* A sequence of digits preceded by 0x or 0X is taken to be a hexadecimal integer. */
 HEXADECIMAL_INTEGER     0[xX][TODO]+
 /* An integer constant may be suffixed by the letter u or U (to specify that it is unsigned) or by the letter l or L (to specify that it is long). */
