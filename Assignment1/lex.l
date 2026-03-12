@@ -23,15 +23,15 @@ long num_directives = 0;
 IDENTIFIER              [[:alpha:]_][[:alnum:]_]*
 
 /* The following identifiers are reserved for use as keywords, and may not be used otherwise. */
-STORAGE_CLASS_SPECIFIER auto|TODO|register|TODO|TODO
-TYPE_SPECIFIER          char|double|enum|TODO|TODO|TODO|short|signed|struct|union|unsigned|void
+STORAGE_CLASS_SPECIFIER auto|extern|register|static|typedef
+TYPE_SPECIFIER          char|double|enum|float|int|long|short|signed|struct|union|unsigned|void
 TYPE_QUALIFIER          const|volatile
 LABEL                   case|default
 SELECTION_STATEMENT     if|else|switch
 ITERATION_STATEMENT     do|for|while
 JUMP_STATEMENT          goto|continue|break|return
 STATEMENT               {SELECTION_STATEMENT}|{ITERATION_STATEMENT}|{JUMP_STATEMENT}
-KEYWORD                 {STORAGE_CLASS_SPECIFIER}|{TYPE_SPECIFIER}|{TYPE_QUALIFIER}|{LABEL}|{STATEMENT}|TODO
+KEYWORD                 {STORAGE_CLASS_SPECIFIER}|{TYPE_SPECIFIER}|{TYPE_QUALIFIER}|{LABEL}|{STATEMENT}
 
 /* An integer constant consisting of a sequence of digits is taken to be octal if it begins with 0, decimal otherwise. */
 OCTAL_CONSTANT          0[0-7]+
