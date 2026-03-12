@@ -39,7 +39,7 @@ DECIMAL                 0|[1-9][[:xdigit:]]*
 /* A sequence of digits preceded by 0x or 0X is taken to be a hexadecimal integer. */
 HEXADECIMAL_INTEGER     0[xX][TODO]+
 /* An integer constant may be suffixed by the letter u or U (to specify that it is unsigned) or by the letter l or L (to specify that it is long). */
-INTEGER_CONSTANT        ({OCTAL_CONSTANT}|TODO|TODO)([uU]([lL]{1,2})?|([lL]{1,2})[uU]?)?
+INTEGER_CONSTANT        ({OCTAL_CONSTANT}|{DECIMAL}|{HEXADECIMAL_INTEGER}([uU]([lL]{1,2})?|([lL]{1,2})[uU]?)?
 /* To represent character constants, and certain other characters, the following escape sequences may be used. There is no limit on the number of digits. */
 ESCAPE_SEQUENCE         \\([ntvbrfa\\?'"]|[0-7]{1,3}|x[[:xdigit:]]+)
 /* A character constant is a sequence of one or more characters enclosed in single quotes, as in 'x'. Character constants do not contain ' or newlines. */
