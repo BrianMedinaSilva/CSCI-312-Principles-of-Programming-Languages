@@ -49,7 +49,7 @@ FRACTION                ([[:digit:]]+\.[[:digit:]]*|[[:digit:]]*\.[[:digit:]]+)
 /* ... an e or E, an optionally signed integer exponent ... */
 EXPONENT                [eE][-+]?[[:digit:]]+
 /* ... and an optional type suffix, one of f, F, l, or L. Either the integer part or the fraction part (not both) may be missing; either the decimal point or the e and the exponent (not both) may be missing. */
-FLOATING_CONSTANT       TODO
+FLOATING_CONSTANT       ({FRACTION}{EXPONENT}?|[[:digit:]]+{EXPONENT})[fFlL]?
 CONSTANT                {INTEGER_CONSTANT}|{CHARACTER_CONSTANT}|TODO
 
 /* A string literal, also called a string constant, is a sequence of characters surrounded by double quotes, as in "...". */
