@@ -37,7 +37,7 @@ KEYWORD                 {STORAGE_CLASS_SPECIFIER}|{TYPE_SPECIFIER}|{TYPE_QUALIFI
 OCTAL_CONSTANT          0[0-7]+
 DECIMAL                 0|[1-9][[:xdigit:]]*
 /* A sequence of digits preceded by 0x or 0X is taken to be a hexadecimal integer. */
-HEXADECIMAL_INTEGER     0[xX][TODO]+
+HEXADECIMAL_INTEGER     0[xX][0-9a-fA-F]+
 /* An integer constant may be suffixed by the letter u or U (to specify that it is unsigned) or by the letter l or L (to specify that it is long). */
 INTEGER_CONSTANT        ({OCTAL_CONSTANT}|{DECIMAL}|{HEXADECIMAL_INTEGER}([uU]([lL]{1,2})?|([lL]{1,2})[uU]?)?
 /* To represent character constants, and certain other characters, the following escape sequences may be used. There is no limit on the number of digits. */
@@ -50,14 +50,14 @@ FRACTION                ([[:digit:]]+\.[[:digit:]]*|[[:digit:]]*\.[[:digit:]]+)
 EXPONENT                [eE][-+]?[[:digit:]]+
 /* ... and an optional type suffix, one of f, F, l, or L. Either the integer part or the fraction part (not both) may be missing; either the decimal point or the e and the exponent (not both) may be missing. */
 FLOATING_CONSTANT       ({FRACTION}{EXPONENT}?|[[:digit:]]+{EXPONENT})[fFlL]?
-CONSTANT                {INTEGER_CONSTANT}|{CHARACTER_CONSTANT}|TODO
+CONSTANT                {INTEGER_CONSTANT}|{CHARACTER_CONSTANT}|{FLOATING_CONSTANT}
 
 /* A string literal, also called a string constant, is a sequence of characters surrounded by double quotes, as in "...". */
 STRING_LITERAL          \"([^\n\\"]|{ESCAPE_SEQUENCE})*\"
 
 OPERATOR_3              "<<="|">>="
 OPERATOR_2              "++"|"--"|"<<"|">>"|"<="|">="|"=="|"!="|"&&"|"||"|"*="|"/="|"%="|"+="|"-="|"&="|"^="|"|="|"->"
-OPERATOR_1              [TODO/%<>^|?=.]
+OPERATOR_1              [+*/%<>=!&^~]
 OPERATOR                {OPERATOR_3}|{OPERATOR_2}|{OPERATOR_1}
 
 OTHER_SEPARATOR         [()\[\]{},;:]
@@ -86,12 +86,12 @@ DIRECTIVE               ^[[:space:]]*#[[:space:]]*.*
 
 {OPERATOR_3}            { DUMP("OPERATOR"); num_operators++; }
 {OPERATOR_2}            { DUMP("OPERATOR"); num_operators++; }
-{OPERATOR_1}            { DUMP("TODO"); TODO++; }
+{OPERATOR_1}            { DUMP("OPERATOR"); num_operators++; }
 
-{OTHER_SEPARATOR}       TODO
+{OTHER_SEPARATOR}       { DUMP("OTHER_SEPARATOR"); num_other_separators++; }
 
  /* Blanks, horizontal and vertical tabs, newlines, and formfeeds (collectively, "white space") are ignored except as they separate tokens. */
-[[:space:]]+            TODO
+[[:space:]]+            { /* ignore whitespace */ }
 
 .                       printf("Unrecognized character on line %d: %s\n", yylineno, yytext);
 
