@@ -35,11 +35,11 @@ KEYWORD                 {STORAGE_CLASS_SPECIFIER}|{TYPE_SPECIFIER}|{TYPE_QUALIFI
 
 /* An integer constant consisting of a sequence of digits is taken to be octal if it begins with 0, decimal otherwise. */
 OCTAL_CONSTANT          0[0-7]+
-DECIMAL                 0|[1-9][[:xdigit:]]*
+DECIMAL                 0|[1-9][[:digit:]]*
 /* A sequence of digits preceded by 0x or 0X is taken to be a hexadecimal integer. */
 HEXADECIMAL_INTEGER     0[xX][0-9a-fA-F]+
 /* An integer constant may be suffixed by the letter u or U (to specify that it is unsigned) or by the letter l or L (to specify that it is long). */
-INTEGER_CONSTANT        ({OCTAL_CONSTANT}|{DECIMAL}|{HEXADECIMAL_INTEGER}([uU]([lL]{1,2})?|([lL]{1,2})[uU]?)?
+INTEGER_CONSTANT        ({OCTAL_CONSTANT}|{DECIMAL}|{HEXADECIMAL_INTEGER})([uU]([lL]{1,2})?|([lL]{1,2})[uU]?)?
 /* To represent character constants, and certain other characters, the following escape sequences may be used. There is no limit on the number of digits. */
 ESCAPE_SEQUENCE         \\([ntvbrfa\\?'"]|[0-7]{1,3}|x[[:xdigit:]]+)
 /* A character constant is a sequence of one or more characters enclosed in single quotes, as in 'x'. Character constants do not contain ' or newlines. */
@@ -68,11 +68,11 @@ DIRECTIVE               ^[[:space:]]*#[[:space:]]*.*
 
 {DIRECTIVE}             { puts("DIRECTIVE"); num_directives++; }
 
- /* \/\/ introduces a comment that includes all multibyte characters up to, but not including, the next new-line character. */
+/* \/\/ introduces a comment that includes all multibyte characters up to, but not including, the next new-line character. */
 \/\/.*                  { puts("COMMENT"); num_comments++; }
- /* \/\* introduces a comment, which terminates with \*\/. Comments do not nest, and they do not occur within string or character literals. */
+/* \/\* introduces a comment, which terminates with \*\/. Comments do not nest, and they do not occur within string or character literals. */
 \/\*                    { BEGIN(COMMENT); puts("COMMENT"); num_comments++; }
-<COMMENT>\*\/           BEGIN(INITIAL);
+<COMMENT>\*\/           { BEGIN(INITIAL); }
 <COMMENT>\n             ;
 <COMMENT>.              ;
 
@@ -90,7 +90,7 @@ DIRECTIVE               ^[[:space:]]*#[[:space:]]*.*
 
 {OTHER_SEPARATOR}       { DUMP("OTHER_SEPARATOR"); num_other_separators++; }
 
- /* Blanks, horizontal and vertical tabs, newlines, and formfeeds (collectively, "white space") are ignored except as they separate tokens. */
+/* Blanks, horizontal and vertical tabs, newlines, and formfeeds (collectively, "white space") are ignored except as they separate tokens. */
 [[:space:]]+            { /* ignore whitespace */ }
 
 .                       printf("Unrecognized character on line %d: %s\n", yylineno, yytext);
